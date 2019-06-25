@@ -26,11 +26,11 @@ def main():
             labeling=labels[i]
         
     
-    # cv2.imshow("average",result)
-    # cv2.imwrite("/home/akash/Documents/Transpack/Datasets/Cropped/4/onlytags/average.jpg",result)
+    cv2.imshow("average",result)
+    cv2.imwrite("/home/akash/Documents/Transpack/Datasets/Cropped/4/onlytags/average.jpg",result)
     
-    # cv2.waitKey(0)
-    # cv2.destroyAllWindows()
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
 if __name__ == "__main__":
     main()
