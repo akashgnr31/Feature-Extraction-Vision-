@@ -5,7 +5,7 @@ import os
 
 from specularity_removal.homography import homography
 
-RESULTS_DIR = 'results/'
+RESULTS_DIR = '/home/akash/Documents/Transpack/Datasets/videoframes/cropped/'
 
 DIFF_THRESHOLD = 20
 
