@@ -1,14 +1,10 @@
 import cv2
 import numpy as np
 from imageio import imread
+import glob
 
-im1 = np.asarray(imread("1.png"))
-im2 = np.asarray(imread("2.png"))
-im1 = np.float64(im1)
-im2 = np.float64(im2)
-
-flow = cv2.calcOpticalFlowFarneback(im1, im2, None, 0.5, 3, 15, 3, 5, 1.2, 0)
-
+images=[]
+labels=[]
 def draw_hsv(flow):
     h, w = flow.shape[:2]
     fx, fy = flow[:,:,0], flow[:,:,1]
@@ -29,9 +25,24 @@ def warp_flow(img, flow):
     res = cv2.remap(img, flow, None, cv2.INTER_LINEAR)
     return res
 
-hsv = draw_hsv(flow)
-im2w = warp_flow(im1, flow)
-cv2.imwrite("/tmp/flow.jpg",hsv)
-cv2.imwrite("/tmp/im1.jpg", im1)
-cv2.imwrite("/tmp/im2.jpg", im2)
-cv2.imwrite("/tmp/im2w.jpg", im2w)
+
+for img in glob.glob("/home/akash/Documents/Transpack/Datasets/videoframes/cropped/*.jpg"):
+    labels.append(img[61:])
+labels.sort()
+for i in range(len(labels)):
+    n=cv2.imread("/home/akash/Documents/Transpack/Datasets/videoframes/cropped/"+labels[i],0)
+    images.append(n)
+result=[]
+for i in range(0,len(images)-1,2):
+    print(labels[i][:4])
+    suming=images[i]
+    news=images[i+1]
+    flow = cv2.calcOpticalFlowFarneback(news, suming, None, 0.5, 9, 30, 3, 5, 1.2, 0)
+    hsv = draw_hsv(flow)
+    news_war = warp_flow(news, flow)
+    print(news_war)
+    cv2.imshow("I",suming)
+    cv2.imshow("I+1",news)
+    cv2.imshow("warped",news_war)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
